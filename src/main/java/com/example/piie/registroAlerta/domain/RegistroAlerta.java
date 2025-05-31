@@ -1,4 +1,4 @@
-package com.example.piie.regsitroAlerta.domain;
+package com.example.piie.registroAlerta.domain;
 
 import com.example.piie.alerta.domain.Alerta;
 import jakarta.persistence.*;

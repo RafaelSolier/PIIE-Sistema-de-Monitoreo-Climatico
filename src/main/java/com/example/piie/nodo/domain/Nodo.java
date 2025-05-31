@@ -1,10 +1,11 @@
 package com.example.piie.nodo.domain;
 
 import com.example.piie.estacion.domain.Estacion;
+import com.example.piie.medicion.domain.Medicion;
+import com.example.piie.alerta.domain.Alerta;
 import com.example.piie.parametro.domain.Parametro;
 import jakarta.persistence.*;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
