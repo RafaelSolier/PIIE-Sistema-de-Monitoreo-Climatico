@@ -1,5 +1,4 @@
 package com.example.piie.estacion.domain;
-
 import com.example.piie.nodo.domain.Nodo;
 import jakarta.persistence.*;
 import lombok.Data;

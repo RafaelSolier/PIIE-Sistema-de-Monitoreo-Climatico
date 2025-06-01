@@ -1,12 +1,14 @@
-package com.example.piie.regsitroAlerta.domain;
+package com.example.piie.registroAlerta.domain;
 
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Embeddable
+@Data
 public class RegistroAlertaId implements Serializable {
     private Long idAlerta;
     private LocalDateTime fecha;
