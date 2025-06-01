@@ -4,6 +4,7 @@ import com.example.piie.estacion.dto.EstacionDTO;
 import com.example.piie.estacion.dto.EstacionResponseDTO;
 import com.example.piie.estacion.dto.EstacionUpdateDTO;
 import com.example.piie.estacion.infrastructure.EstacionRepository;
+import com.example.piie.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

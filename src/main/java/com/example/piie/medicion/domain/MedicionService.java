@@ -1,5 +1,6 @@
 package com.example.piie.medicion.domain;
 
+import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.medicion.dto.MedicionFilterDTO;
 import com.example.piie.medicion.infrastructure.MedicionRepository;
 import com.example.piie.nodo.infrastructure.NodoRepository;

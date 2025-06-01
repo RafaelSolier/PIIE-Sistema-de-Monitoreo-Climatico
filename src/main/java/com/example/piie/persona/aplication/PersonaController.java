@@ -4,6 +4,8 @@ import com.example.piie.persona.domain.PersonaService;
 import com.example.piie.persona.dto.PersonaDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +24,8 @@ public class PersonaController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<PersonaDto> getAll() {
-        return personaService.findAll();
+    public Page<PersonaDto> getAll(Pageable pageable) {
+        return personaService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
