@@ -2,6 +2,7 @@ package com.example.piie.estacion.domain;
 import com.example.piie.nodo.domain.Nodo;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,12 @@ public class Estacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEstacion;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nombre;
 
-    private String direccion;
+    private Double latitud;
+
+    private Double longitud;
 
     private String telefono;
 

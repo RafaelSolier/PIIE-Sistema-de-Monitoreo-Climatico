@@ -15,8 +15,9 @@ public class Parametro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParametro;
 
-    @Column(nullable = false)
-    private String nombre;
+    @Column(nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
+    private ParametroEnum nombre;
 
     private String unidad;
 

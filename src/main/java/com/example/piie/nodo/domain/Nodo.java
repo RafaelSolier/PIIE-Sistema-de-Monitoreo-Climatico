@@ -1,5 +1,6 @@
 package com.example.piie.nodo.domain;
 
+import com.example.piie.alerta.domain.Alerta;
 import com.example.piie.estacion.domain.Estacion;
 import com.example.piie.medicion.domain.Medicion;
 import com.example.piie.alerta.domain.Alerta;
@@ -31,7 +32,8 @@ public class Nodo {
     private List<Parametro> parametros = new ArrayList<>();
 
     @Column(nullable = false)
-    private String estado; // "ACTIVO", "INACTIVO", "RETIRADO"
+    @Enumerated(EnumType.STRING)
+    private EstadoEnum estado;
 
     private LocalDateTime fechaRegistro;
     private LocalDateTime fechaInstalacion;
