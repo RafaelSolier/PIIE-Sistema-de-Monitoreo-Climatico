@@ -1,9 +1,11 @@
 package com.example.piie.parametro.domain;
 
+import com.example.piie.nodo.domain.Nodo;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
@@ -13,8 +15,9 @@ public class Parametro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idParametro;
 
-    @Column(nullable = false)
-    private String nombre;
+    @Column(nullable = false, unique = true)
+    @Enumerated(EnumType.STRING)
+    private ParametroEnum nombre;
 
     private String unidad;
 
