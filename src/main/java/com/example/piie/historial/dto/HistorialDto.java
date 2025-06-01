@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-
+import jakarta.validation.constraints.AssertTrue;
 import java.time.LocalDateTime;
 
 @Data
@@ -27,6 +27,10 @@ public class HistorialDto {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime fechaInicio;
 
+    @AssertTrue(message = "La fechaFin debe ser posterior a la fechaInicio")
+    public boolean isFechaFinAfterFechaInicio() {
+        return fechaInicio != null && fechaFin != null && fechaFin.isAfter(fechaInicio);
+    }
     @NotNull(message = "La fechaFin es obligatoria")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime fechaFin;

@@ -6,6 +6,8 @@ import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.nodo.domain.Nodo;
 import com.example.piie.nodo.infrastructure.NodoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +23,15 @@ public class AlertaService {
     /**
      * Lista todas las alertas.
      */
-    public List<AlertaDto> findAll() {
-        return alertaRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+//    public List<AlertaDto> findAll() {
+//        return alertaRepository.findAll()
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+    public Page<AlertaDto> findAll(Pageable pageable) {
+        return alertaRepository.findAll(pageable).map(this::toDto);
     }
-
     /**
      * Obtiene una alerta por ID.
      */
