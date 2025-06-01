@@ -1,7 +1,7 @@
 package com.example.piie.alerta.domain;
 
 import com.example.piie.nodo.domain.Nodo;
-import com.example.piie.regsitroAlerta.domain.RegistroAlerta;
+import com.example.piie.registroAlerta.domain.RegistroAlerta;
 import jakarta.persistence.*;
 import lombok.Data;
 

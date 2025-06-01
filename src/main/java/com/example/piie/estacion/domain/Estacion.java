@@ -1,9 +1,10 @@
 package com.example.piie.estacion.domain;
-
+import com.example.piie.nodo.domain.Nodo;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Entity
