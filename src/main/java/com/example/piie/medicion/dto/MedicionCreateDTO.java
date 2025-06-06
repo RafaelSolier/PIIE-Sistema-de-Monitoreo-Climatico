@@ -15,7 +15,7 @@ public class MedicionCreateDTO {
     private Long idNodo;
 
     @NotNull(message = "El ID de parámetro es obligatorio")
-    private ParametroEnum parametro;
+    private Long idParametro;
 
     @NotNull(message = "La fecha es obligatoria")
     private LocalDateTime fecha;

@@ -4,7 +4,7 @@ import com.example.piie.alerta.dto.AlertaDto;
 import com.example.piie.alerta.infraestructure.AlertaRepository;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.nodo.domain.Nodo;
-import com.example.piie.nodo.infraestructure.NodoRepository;
+import com.example.piie.nodo.infrastructure.NodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

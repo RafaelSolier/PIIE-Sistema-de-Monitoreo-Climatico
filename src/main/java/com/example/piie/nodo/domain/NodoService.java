@@ -2,18 +2,17 @@ package com.example.piie.nodo.domain;
 
 import com.example.piie.estacion.domain.Estacion;
 import com.example.piie.estacion.infrastructure.EstacionRepository;
+import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.nodo.dto.NodoCreateDTO;
 import com.example.piie.nodo.dto.NodoResponseDTO;
 import com.example.piie.nodo.dto.NodoUpdateDTO;
 import com.example.piie.nodo.infrastructure.NodoRepository;
 import com.example.piie.parametro.domain.Parametro;
 import com.example.piie.parametro.infrastructure.ParametroRepository;
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.*;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.asm.Advice;
 import org.springframework.stereotype.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +29,16 @@ public class NodoService {
     private final ParametroRepository parametroRepository;
     private final ModelMapper modelMapper;
 
+    public NodoResponseDTO getNodoById(Long id) {
+        Nodo nodo = nodoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el nodo " + id));
+        return modelMapper.map(nodo, NodoResponseDTO.class);
+    }
+
+    public List<NodoResponseDTO> getAllNodos() {
+        return nodoRepository.findAll().stream()
+                .map(r -> modelMapper.map(r, NodoResponseDTO.class)).collect(Collectors.toList());
+    }
 
     public NodoResponseDTO createNodo(@Valid NodoCreateDTO nodoCreateDTO) {
         // Validar y obtener estación
@@ -37,7 +46,7 @@ public class NodoService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la estación "+ nodoCreateDTO.getIdEstacion()));
 
         // Validar y obtener parámetros
-        List<Parametro> parametros = parametroRepository.findAllByNombre(nodoCreateDTO.getParametros());
+        List<Parametro> parametros = parametroRepository.findByNombreIn(nodoCreateDTO.getParametros());
 
         // Mapear DTO a entidad
         Nodo nodo = modelMapper.map(nodoCreateDTO, Nodo.class);
@@ -51,22 +60,21 @@ public class NodoService {
         return modelMapper.map(savedNodo, NodoResponseDTO.class);
     }
 
-    public NodoResponseDTO getNodoById(Long id) {
-        Nodo nodo = nodoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el nodo " + id));
-        return modelMapper.map(nodo, NodoResponseDTO.class);
-    }
-
-    public List<NodoResponseDTO> getAllNodos() {
-        return nodoRepository.findAll().stream()
-                .map(r -> modelMapper.map(r, NodoResponseDTO.class)).collect(Collectors.toList());
-    }
-
     public List<NodoResponseDTO> getNodosByEstacion(Long idEstacion) {
         Estacion estacion = estacionRepository.findById(idEstacion)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la estación con ID: " + idEstacion));
         List<Nodo> nodos = nodoRepository.findByEstacion(estacion);
         return nodos.stream().map(r -> modelMapper.map(r, NodoResponseDTO.class)).collect(Collectors.toList());
+    }
+
+    public List<NodoResponseDTO> getNodosByParametro(Long idParametro) {
+        Parametro parametro = parametroRepository.findById(idParametro)
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró el parámetro con ID: " + idParametro));
+
+        List<Nodo> nodos = nodoRepository.findByParametrosContaining(parametro);
+        return nodos.stream()
+                .map(n -> modelMapper.map(n, NodoResponseDTO.class))
+                .collect(Collectors.toList());
     }
 
     public NodoResponseDTO updateNodo(Long id, @Valid NodoUpdateDTO nodoUpdateDTO) {
@@ -86,7 +94,7 @@ public class NodoService {
 
         // Actualizar parámetros si vienen en el DTO
         if (nodoUpdateDTO.getParametros() != null && !nodoUpdateDTO.getParametros().isEmpty()) {
-            List<Parametro> parametros = parametroRepository.findAllByNombre(nodoUpdateDTO.getParametros());
+            List<Parametro> parametros = parametroRepository.findByNombreIn(nodoUpdateDTO.getParametros());
             if (parametros.size() != nodoUpdateDTO.getParametros().size()) {
                 throw new ResourceNotFoundException("Algunos parámetros no existen");
             }

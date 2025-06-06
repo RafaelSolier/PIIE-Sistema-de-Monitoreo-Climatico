@@ -15,7 +15,7 @@ public class NodoResponseDTO {
 
         private Long idNodo;
         private Long idEstacion;
-        private List<ParametroEnum> idParametros;
+        private List<ParametroEnum> parametros;
         private EstadoEnum estado;
         private LocalDateTime fechaRegistro;
         private LocalDateTime fechaInstalacion;

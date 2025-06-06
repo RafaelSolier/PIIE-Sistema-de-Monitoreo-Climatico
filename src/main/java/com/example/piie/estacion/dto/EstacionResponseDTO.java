@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EstacionResponseDTO {
-
+    private Long idEstacion;
     private String nombre;
     private String latitud;
     private String longitud;
