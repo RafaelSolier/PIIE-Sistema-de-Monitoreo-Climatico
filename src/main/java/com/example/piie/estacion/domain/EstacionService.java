@@ -1,6 +1,7 @@
 package com.example.piie.estacion.domain;
 
 import com.example.piie.estacion.dto.EstacionDTO;
+import com.example.piie.estacion.dto.EstacionRequestDTO;
 import com.example.piie.estacion.dto.EstacionResponseDTO;
 import com.example.piie.estacion.dto.EstacionUpdateDTO;
 import com.example.piie.estacion.infrastructure.EstacionRepository;
@@ -27,15 +28,18 @@ public class EstacionService {
                 .stream().map(e -> modelMapper.map(e, EstacionDTO.class)).collect(Collectors.toList());
     }
 
-    public Estacion findById(Long id) {
-        return estacionRepository.findById(id).get();
+    public EstacionResponseDTO findById(Long id) {
+        Estacion estacion =  estacionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Estación no encontrada con ID: " + id));
+        return modelMapper.map(estacion, EstacionResponseDTO.class);
     }
 
-    public Estacion save(Estacion estacion) {
-        return estacionRepository.save(estacion);
+    public EstacionResponseDTO save(EstacionRequestDTO estacion) {
+        Estacion newEstacion = estacionRepository.save(modelMapper.map(estacion, Estacion.class));
+        return modelMapper.map(newEstacion, EstacionResponseDTO.class);
     }
 
-    public EstacionDTO update(Long id, EstacionUpdateDTO estacionUpdateDTO) {
+    public EstacionResponseDTO update(Long id, EstacionUpdateDTO estacionUpdateDTO) {
         Estacion estacion = estacionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la estación:  "+ id));
         if (estacionUpdateDTO.getNombre() != null) {
@@ -58,11 +62,14 @@ public class EstacionService {
         Estacion updatedEstacion = estacionRepository.save(estacion);
 
         // 4. Convertir a DTO para respuesta
-        return modelMapper.map(updatedEstacion, EstacionDTO.class);
+        return modelMapper.map(updatedEstacion, EstacionResponseDTO.class);
     }
 
-    public void delete(Estacion estacion) {
-        estacionRepository.delete(estacion);
+    public void delete(Long id) {
+        if (estacionRepository.existsById(id)) {
+            estacionRepository.deleteById(id);
+        }
+        throw new ResourceNotFoundException("Estación no encontrada por ID: " + id);
     }
 
     public List<EstacionResponseDTO> findAllByNombre(String nombre) {

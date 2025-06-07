@@ -20,6 +20,8 @@ public class NodoCreateDTO {
     private List<ParametroEnum> parametros;
 
     @NotBlank(message = "El estado es obligatorio")
+    // @EnumNamePattern(regexp = "ACTIVO|INACTIVO|MANTENIMIENTO",
+    //         message = "Debe ser uno de: ACTIVO, INACTIVO o MANTENIMIENTO")
     private EstadoEnum estado;
 
     @FutureOrPresent(message = "La fecha de instalación debe ser presente o futura")

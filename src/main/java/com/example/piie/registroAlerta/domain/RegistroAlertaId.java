@@ -1,7 +1,10 @@
 package com.example.piie.registroAlerta.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -30,8 +33,16 @@ import java.util.Objects;
 
 @Embeddable
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegistroAlertaId implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Column(name = "id_alerta")
     private Long idAlerta;
+
+    @Column(name = "fecha")
     private LocalDateTime fecha;
 
     // Constructor con argumentos
