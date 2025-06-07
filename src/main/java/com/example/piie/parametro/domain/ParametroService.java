@@ -1,5 +1,6 @@
 package com.example.piie.parametro.domain;
 
+import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.parametro.infrastructure.ParametroRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class ParametroService {
         if (parametroRepository.findById(id).isPresent()) {
             parametroRepository.deleteById(id);
         }else {
-            throw new RuntimeException(ResourceNotFoundException("No se encontró el parámetro" + id));
+            throw new RuntimeException(new ResourceNotFoundException("No se encontró el parámetro" + id));
         }
     }
 }

@@ -36,6 +36,11 @@ public class AuthenticationService {
      * @return JwtAuthenticationResponse que contiene el token recién generado
      */
     public JwtAuthenticationResponse signup(SignUpRequest request) {
+        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new com.example.piie.exception.IllegalArgumentException("Ya existe un usuario con el correo: " + request.getEmail());
+        }
+
+
         // 1) Crear y persistir la entidad Persona
         Persona persona = new Persona();
         persona.setDni(request.getDni());
@@ -76,15 +81,20 @@ public class AuthenticationService {
      * @throws IllegalArgumentException si las credenciales son inválidas o el usuario no existe.
      */
     public JwtAuthenticationResponse signin(SigninRequest request) {
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
+                );
+
         // 1) Intentar autenticar con AuthenticationManager (Spring Security)
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         // 2) Si pasa la autenticación, buscar el usuario en BD
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
-                );
+//        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
+//                .orElseThrow(() ->
+//                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
+//                );
 
         // 3) Generar token JWT
         String token = jwtService.generateToken(

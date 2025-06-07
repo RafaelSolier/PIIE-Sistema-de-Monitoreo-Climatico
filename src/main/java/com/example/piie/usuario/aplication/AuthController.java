@@ -1,7 +1,6 @@
 package com.example.piie.usuario.aplication;
 
 import com.example.piie.usuario.domain.AuthenticationService;
-import com.example.piie.usuario.domain.Usuario;
 import com.example.piie.usuario.dto.JwtAuthenticationResponse;
 import com.example.piie.usuario.dto.SignUpRequest;
 import com.example.piie.usuario.dto.SigninRequest;

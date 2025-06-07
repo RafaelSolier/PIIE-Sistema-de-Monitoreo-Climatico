@@ -35,7 +35,7 @@ public class NodoService {
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la estación "+ nodoCreateDTO.getIdEstacion()));
 
         // Validar y obtener parámetros
-        List<Parametro> parametros = parametroRepository.findAllByNombre(nodoCreateDTO.getParametros());
+        List<Parametro> parametros = parametroRepository.findAllByNombreIn(nodoCreateDTO.getParametros());
 
         // Mapear DTO a entidad
         Nodo nodo = modelMapper.map(nodoCreateDTO, Nodo.class);
@@ -84,7 +84,7 @@ public class NodoService {
 
         // Actualizar parámetros si vienen en el DTO
         if (nodoUpdateDTO.getParametros() != null && !nodoUpdateDTO.getParametros().isEmpty()) {
-            List<Parametro> parametros = parametroRepository.findAllByNombre(nodoUpdateDTO.getParametros());
+            List<Parametro> parametros = parametroRepository.findAllByNombreIn(nodoUpdateDTO.getParametros());
             if (parametros.size() != nodoUpdateDTO.getParametros().size()) {
                 throw new ResourceNotFoundException("Algunos parámetros no existen");
             }

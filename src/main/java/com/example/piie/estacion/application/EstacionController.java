@@ -18,12 +18,12 @@ public class EstacionController {
     @Autowired
     private EstacionService estacionService;
 
-    @GetMapping()
+    @GetMapping
     public List<EstacionDTO> findAll() {
         return estacionService.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/buscar")
     public List<EstacionResponseDTO> findByNombre(@Valid @RequestBody EstacionRequestDTO estacionRequestDTO) {
         return estacionService.findAllByNombre(estacionRequestDTO.getNombre());
     }
