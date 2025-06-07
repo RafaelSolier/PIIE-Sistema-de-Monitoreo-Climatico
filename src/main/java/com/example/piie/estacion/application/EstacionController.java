@@ -47,13 +47,12 @@ public class EstacionController {
 
     @PostMapping()
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<EstacionResponseDTO> create(
-            @Valid @RequestBody EstacionRequestDTO estacionRequestDTO) {
+    public ResponseEntity<EstacionResponseDTO> create(@Valid @RequestBody EstacionRequestDTO estacionRequestDTO) {
         EstacionResponseDTO nuevaEstacion = estacionService.save(estacionRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaEstacion);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<EstacionResponseDTO> update(
             @PathVariable Long id,
