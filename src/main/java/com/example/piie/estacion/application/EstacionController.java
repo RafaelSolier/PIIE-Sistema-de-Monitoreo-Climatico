@@ -29,7 +29,7 @@ public class EstacionController {
         return ResponseEntity.ok(estaciones);
     }
 
-    @GetMapping("/nombre")
+    @GetMapping("/buscar")
     @PreAuthorize("hasRole('ADMIN') or hasRole('CLIENTE')")
     public ResponseEntity<List<EstacionResponseDTO>> findByNombre(
             @Valid @RequestBody EstacionRequestDTO estacionRequestDTO) {

@@ -10,6 +10,8 @@ import com.example.piie.parametro.infrastructure.ParametroRepository;
 import com.example.piie.persona.domain.Persona;
 import com.example.piie.persona.infraestructure.PersonaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,11 +29,14 @@ public class HistorialService {
     /**
      * Lista todos los registros de historial.
      */
-    public List<HistorialDto> findAll() {
-        return historialRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+//    public List<HistorialDto> findAll() {
+//        return historialRepository.findAll()
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+    public Page<HistorialDto> findAll(Pageable pageable) {
+        return historialRepository.findAll(pageable).map(this::toDto);
     }
 
     /**

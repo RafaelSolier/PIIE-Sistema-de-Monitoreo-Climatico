@@ -4,6 +4,8 @@ import com.example.piie.alerta.domain.AlertaService;
 import com.example.piie.alerta.dto.AlertaDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +24,8 @@ public class AlertaController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<AlertaDto> getAll() {
-        return alertaService.findAll();
+    public Page<AlertaDto> getAll(Pageable pageable) {
+        return alertaService.findAll(pageable);
     }
 
     @GetMapping("/{id}")

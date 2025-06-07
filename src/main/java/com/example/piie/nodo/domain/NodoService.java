@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +46,7 @@ public class NodoService {
 
         // Validar y obtener parámetros
         List<Parametro> parametros = parametroRepository.findByNombreIn(nodoCreateDTO.getParametros());
+
 
         // Mapear DTO a entidad
         Nodo nodo = modelMapper.map(nodoCreateDTO, Nodo.class);

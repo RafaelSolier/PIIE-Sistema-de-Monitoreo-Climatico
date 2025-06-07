@@ -1,5 +1,6 @@
 package com.example.piie.usuario.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -21,6 +22,7 @@ public class SignUpRequest {
     private Integer rol; // Por ejemplo 0 = CLIENTE, 1 = ADMIN
 
     @NotBlank(message = "El DNI es obligatorio")
+
     @Size(min = 8, max = 8, message = "El DNI debe tener 8 dígitos")
     private String dni;
 
@@ -30,7 +32,7 @@ public class SignUpRequest {
     @NotBlank(message = "Los apellidos son obligatorios")
     private String apellidos;
 
-    @Size(max = 15, message = "El celular no puede superar 15 dígitos")
+    @Size(min = 9,max=9, message = "El celular no puede superar 15 dígitos")
     private String celular;
 
     @NotBlank(message = "El sexo es obligatorio")

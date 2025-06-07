@@ -4,6 +4,8 @@ import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.dto.PersonaDto;
 import com.example.piie.persona.infraestructure.PersonaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +20,14 @@ public class PersonaService {
     /**
      * Lista todas las personas.
      */
-    public List<PersonaDto> findAll() {
-        return personaRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+//    public List<PersonaDto> findAll() {
+//        return personaRepository.findAll()
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+    public Page<PersonaDto> findAll(Pageable pageable) {
+        return personaRepository.findAll(pageable).map(this::toDto);
     }
 
     /**
@@ -37,7 +42,15 @@ public class PersonaService {
     /**
      * Crea una nueva persona.
      */
+//    public PersonaDto create(PersonaDto dto) {
+//        Persona entidad = toEntity(dto);
+//        Persona guardada = personaRepository.save(entidad);
+//        return toDto(guardada);
+//    }
     public PersonaDto create(PersonaDto dto) {
+        if (personaRepository.existsByDni(dto.getDni())) {
+            throw new IllegalArgumentException("El DNI ya está registrado");
+        }
         Persona entidad = toEntity(dto);
         Persona guardada = personaRepository.save(entidad);
         return toDto(guardada);

@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ParametroRepository extends JpaRepository<Parametro, Long> {
+  
     List<Parametro> findByNombreIn(List<ParametroEnum> nombre);
+
     Parametro findByNombre(ParametroEnum nombre);
 }
