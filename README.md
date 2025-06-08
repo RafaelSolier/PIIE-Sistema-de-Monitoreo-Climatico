@@ -91,13 +91,13 @@ POST /api/registro-alertas (Crear manualmente un registro de alerta; ADMIN)
 /api/estaciones              GET     → Listar Estaciones (ESTO ES PARA EL MAPITA)
 /api/estaciones/{id}         GET     → Detalle Estación
 /api/estaciones              POST    → Crear Estación  (ADMIN)
-/api/estaciones/{id}         PUT     → Actualizar Estación (ADMIN)
+/api/estaciones/{id}         PATCH     → Actualizar Estación (ADMIN)
 /api/estaciones/{id}         DELETE  → Eliminar Estación  (ADMIN)
 *** (Rafael-ver)
 /api/parametros              GET     → Listar Parámetros
 /api/parametros/{id}         GET     → Detalle Parámetro
 /api/parametros              POST    → Crear Parámetro  (ADMIN)
-/api/parametros/{id}         PUT     → Actualizar Parámetro (ADMIN)
+/api/parametros/{id}         PATCH     → Actualizar Parámetro (ADMIN)
 /api/parametros/{id}         DELETE  → Eliminar Parámetro  (ADMIN)
 *** (Rafael-ver)
 /api/nodos                   GET     → Listar todos los Nodos
