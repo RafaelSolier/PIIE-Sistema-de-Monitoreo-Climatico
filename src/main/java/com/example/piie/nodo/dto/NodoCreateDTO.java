@@ -1,6 +1,5 @@
 package com.example.piie.nodo.dto;
 
-
 import com.example.piie.nodo.domain.EstadoEnum;
 import com.example.piie.parametro.domain.ParametroEnum;
 import jakarta.validation.constraints.*;
@@ -19,7 +18,7 @@ public class NodoCreateDTO {
     @NotEmpty(message = "Debe tener al menos un parámetro")
     private List<ParametroEnum> parametros;
 
-    @NotBlank(message = "El estado es obligatorio")
+    @NotNull(message = "El estado es obligatorio")
     // @EnumNamePattern(regexp = "ACTIVO|INACTIVO|MANTENIMIENTO",
     //         message = "Debe ser uno de: ACTIVO, INACTIVO o MANTENIMIENTO")
     private EstadoEnum estado;

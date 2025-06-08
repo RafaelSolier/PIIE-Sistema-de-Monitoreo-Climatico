@@ -8,6 +8,7 @@ import com.example.piie.nodo.dto.NodoResponseDTO;
 import com.example.piie.nodo.dto.NodoUpdateDTO;
 import com.example.piie.nodo.infrastructure.NodoRepository;
 import com.example.piie.parametro.domain.Parametro;
+import com.example.piie.parametro.domain.ParametroEnum;
 import com.example.piie.parametro.infrastructure.ParametroRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -40,6 +41,7 @@ public class NodoService {
     }
 
     public NodoResponseDTO createNodo(@Valid NodoCreateDTO nodoCreateDTO) {
+
         // Validar y obtener estación
         Estacion estacion = estacionRepository.findById(nodoCreateDTO.getIdEstacion())
                 .orElseThrow(() -> new ResourceNotFoundException("No se encontró la estación "+ nodoCreateDTO.getIdEstacion()));
@@ -47,17 +49,23 @@ public class NodoService {
         // Validar y obtener parámetros
         List<Parametro> parametros = parametroRepository.findByNombreIn(nodoCreateDTO.getParametros());
 
-
         // Mapear DTO a entidad
-        Nodo nodo = modelMapper.map(nodoCreateDTO, Nodo.class);
-        nodo.setEstacion(estacion);
-        nodo.setParametros(parametros);
-        nodo.setFechaRegistro(LocalDateTime.now());
+        Nodo newNodo = new Nodo();
+        newNodo.setEstacion(estacion);
+        newNodo.setParametros(parametros);
+        newNodo.setEstado(nodoCreateDTO.getEstado());
+        newNodo.setFechaRegistro(LocalDateTime.now());
+        newNodo.setDescripcion(nodoCreateDTO.getDescripcion());
+
 
         // Guardar en BD
-        Nodo savedNodo = nodoRepository.save(nodo);
+        Nodo savedNodo = nodoRepository.save(newNodo);
+        //System.out.println("Nodo created" + savedNodo);
 
-        return modelMapper.map(savedNodo, NodoResponseDTO.class);
+        NodoResponseDTO n =  modelMapper.map(savedNodo, NodoResponseDTO.class);
+        //System.out.println("Nodo created" + n);
+
+        return n;
     }
 
     public List<NodoResponseDTO> getNodosByEstacion(Long idEstacion) {
@@ -109,6 +117,11 @@ public class NodoService {
         if (!nodoRepository.existsById(id)) {
             throw new ResourceNotFoundException("Nodo no encontrado con id: " + id);
         }
+        Nodo nodo = nodoRepository.findById(id).get();
+        // Desasociar parámetros primero
+        nodo.getParametros().clear();
+        nodoRepository.save(nodo);
+
         nodoRepository.deleteById(id);
     }
 

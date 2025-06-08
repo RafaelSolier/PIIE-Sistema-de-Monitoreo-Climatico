@@ -1,6 +1,9 @@
 package com.example.piie.parametro.domain;
 
 import com.example.piie.nodo.domain.Nodo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,7 +27,8 @@ public class Parametro {
     private String descripcion;
 
     @ManyToMany(mappedBy = "parametros")
-    private List<Nodo> nodos = new ArrayList<>();
+    @JsonBackReference
+    private List<Nodo> nodos;
 
     // getters y setters
 }

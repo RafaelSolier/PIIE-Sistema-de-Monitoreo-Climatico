@@ -51,7 +51,7 @@ public class ParametroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(creado, ParametroDto.class));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ParametroDto> updateParametro(@PathVariable Long id, @Valid @RequestBody ParametroRequestDto parametroRequestDto) {
         Parametro parametro = modelMapper.map(parametroRequestDto, Parametro.class);
