@@ -41,10 +41,17 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(httpSecurityCorsCustomizer -> {});
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/users/**", "/auth/**").permitAll()
-                                .anyRequest()
-                                .authenticated())
+//                .authorizeHttpRequests(authorize ->
+//                        authorize.requestMatchers("/users/**", "/auth/**").permitAll()
+//                                .anyRequest()
+//                                .authenticated()
+//                )
+
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/users/**", "/auth/**").permitAll()
+                        .requestMatchers("/auth/me").authenticated()
+                        .anyRequest().authenticated()
+                )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

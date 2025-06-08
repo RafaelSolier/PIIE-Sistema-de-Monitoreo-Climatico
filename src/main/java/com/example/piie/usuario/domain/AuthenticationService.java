@@ -2,16 +2,21 @@ package com.example.piie.usuario.domain;
 
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.domain.Persona;
+import com.example.piie.persona.dto.PersonaDto;
 import com.example.piie.persona.infraestructure.PersonaRepository;
 import com.example.piie.usuario.domain.Rol;
 import com.example.piie.usuario.domain.Usuario;
 import com.example.piie.usuario.dto.JwtAuthenticationResponse;
 import com.example.piie.usuario.dto.SignUpRequest;
 import com.example.piie.usuario.dto.SigninRequest;
+import com.example.piie.usuario.dto.UsuarioDTO;
 import com.example.piie.usuario.infraestructure.UsuarioRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -107,4 +112,32 @@ public class AuthenticationService {
 
         return new JwtAuthenticationResponse(token);
     }
+//    public Usuario getCurrentUser() {
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        return usuarioRepository.findByEmail(email)
+//                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+//    }
+// AuthenticationService.java
+public UsuarioDTO getCurrentUser() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+    // Inicializar la relación con Persona
+    Hibernate.initialize(usuario.getPersona());
+
+    // Mapear Persona a PersonaDTO
+    Persona persona = usuario.getPersona();
+    PersonaDto personaDTO = new PersonaDto(
+            persona.getIdPersona(),
+            persona.getNombre(),
+            persona.getApellidos(),
+            persona.getDni(),
+            persona.getCelular(),
+            persona.getSexo()
+    );
+
+    // Retornar UsuarioDTO
+    return new UsuarioDTO(usuario.getEmail(), usuario.getRol(), personaDTO);
+}
 }
