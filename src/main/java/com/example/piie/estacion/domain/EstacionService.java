@@ -1,12 +1,11 @@
 package com.example.piie.estacion.domain;
 
-import com.example.piie.estacion.dto.EstacionDTO;
-import com.example.piie.estacion.dto.EstacionRequestDTO;
-import com.example.piie.estacion.dto.EstacionResponseDTO;
-import com.example.piie.estacion.dto.EstacionUpdateDTO;
+import com.example.piie.estacion.dto.*;
 import com.example.piie.estacion.infrastructure.EstacionRepository;
+import com.example.piie.exception.EstacionAlreadyExistsException;
 import com.example.piie.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +15,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class EstacionService {
-    @Autowired
-    private EstacionRepository estacionRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    final private EstacionRepository estacionRepository;
 
-    public List<EstacionDTO> findAll() {
+    final private ModelMapper modelMapper;
+
+    public List<EstacionesDTO> findAll() {
         return estacionRepository.findAll()
-                .stream().map(e -> modelMapper.map(e, EstacionDTO.class)).collect(Collectors.toList());
+                .stream().map(e -> modelMapper.map(e, EstacionesDTO.class)).collect(Collectors.toList());
     }
 
     public EstacionResponseDTO findById(Long id) {
@@ -35,6 +34,9 @@ public class EstacionService {
     }
 
     public EstacionResponseDTO save(EstacionRequestDTO estacion) {
+        if (estacionRepository.existsByNombre(estacion.getNombre())){
+            throw new EstacionAlreadyExistsException("Ya existe una estación con el nombre "+ estacion.getNombre());
+        }
         Estacion newEstacion = estacionRepository.save(modelMapper.map(estacion, Estacion.class));
         return modelMapper.map(newEstacion, EstacionResponseDTO.class);
     }
@@ -66,10 +68,10 @@ public class EstacionService {
     }
 
     public void delete(Long id) {
-        if (estacionRepository.existsById(id)) {
-            estacionRepository.deleteById(id);
+        if (!estacionRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Estación no encontrada por ID: " + id);
         }
-        throw new ResourceNotFoundException("Estación no encontrada por ID: " + id);
+        estacionRepository.deleteById(id);
     }
 
     public List<EstacionResponseDTO> findAllByNombre(String nombre) {

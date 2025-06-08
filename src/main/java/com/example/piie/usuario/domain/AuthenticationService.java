@@ -1,5 +1,7 @@
 package com.example.piie.usuario.domain;
 
+import com.example.piie.exception.AuthenticationException;
+import com.example.piie.exception.BadCredentialsException;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.domain.Persona;
 import com.example.piie.persona.infraestructure.PersonaRepository;
@@ -82,19 +84,15 @@ public class AuthenticationService {
      */
     public JwtAuthenticationResponse signin(SigninRequest request) {
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
-                );
+                .orElseThrow(() ->  new BadCredentialsException());
 
         // 1) Intentar autenticar con AuthenticationManager (Spring Security)
-        authenticationManager.authenticate(
+       try{ authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        // 2) Si pasa la autenticación, buscar el usuario en BD
-//        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-//                .orElseThrow(() ->
-//                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
-//                );
+       }catch(org.springframework.security.authentication.BadCredentialsException e){
+            throw new BadCredentialsException();
+        }
 
         // 3) Generar token JWT
         String token = jwtService.generateToken(
