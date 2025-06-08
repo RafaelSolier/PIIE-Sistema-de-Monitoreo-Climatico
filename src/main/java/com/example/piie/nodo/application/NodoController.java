@@ -57,7 +57,7 @@ public class NodoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoNodo);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<NodoResponseDTO> updateNodo(@PathVariable Long id, @Valid @RequestBody NodoUpdateDTO nodoUpdateDTO) {
         NodoResponseDTO nodoActualizado = nodoService.updateNodo(id, nodoUpdateDTO);

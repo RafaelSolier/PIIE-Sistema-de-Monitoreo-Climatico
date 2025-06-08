@@ -1,7 +1,7 @@
 package com.example.piie.nodo.dto;
 
 import com.example.piie.nodo.domain.EstadoEnum;
-import com.example.piie.parametro.domain.ParametroEnum;
+import com.example.piie.parametro.domain.Parametro;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +15,7 @@ public class NodoResponseDTO {
 
         private Long idNodo;
         private Long idEstacion;
-        private List<ParametroEnum> parametros;
+        private List<Parametro> parametros;
         private EstadoEnum estado;
         private LocalDateTime fechaRegistro;
         private LocalDateTime fechaInstalacion;

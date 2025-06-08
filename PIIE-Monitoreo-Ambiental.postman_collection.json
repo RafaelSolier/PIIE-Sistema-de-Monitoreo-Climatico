@@ -1,0 +1,1383 @@
+{
+	"info": {
+		"_postman_id": "99ab3ee4-a90e-40c4-b8d0-0dfcfac5a9cc",
+		"name": "PIIE-Monitoreo-Ambiental",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43498844"
+	},
+	"item": [
+		{
+			"name": "Inicio",
+			"item": [
+				{
+					"name": "SignUpCliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 200 && response.token) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"authTokenCliente\", response.token);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Token guardado exitosamente: \" + response.token);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el token o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario1@ejemplo.com\",\r\n  \"password\": \"miPassword123\",\r\n  \"rol\": 0,\r\n  \"dni\": \"12345676\",\r\n  \"nombre\": \"Juan Carlos\",\r\n  \"apellidos\": \"Pérez González\",\r\n  \"celular\": \"987654321\",\r\n  \"sexo\": \"F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/signup",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignInCliente",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 200 && response.token) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"authTokenCliente\", response.token);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Token guardado exitosamente: \" + response.token);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el token o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario1@ejemplo.com\",\r\n  \"password\": \"miPassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignUp Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 200 && response.token) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"authTokenAdmin\", response.token);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Token guardado exitosamente: \" + response.token);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el token o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario3@ejemplo.com\",\r\n  \"password\": \"miPassword123\",\r\n  \"rol\": 1,\r\n  \"dni\": \"12345679\",\r\n  \"nombre\": \"Juan Carlos\",\r\n  \"apellidos\": \"Pérez González\",\r\n  \"celular\": \"987654321\",\r\n  \"sexo\": \"F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/signup",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignIn Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 200 && response.token) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"authTokenAdmin\", response.token);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Token guardado exitosamente: \" + response.token);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el token o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario3@ejemplo.com\",\r\n  \"password\": \"miPassword123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estaciones",
+			"item": [
+				{
+					"name": "addEstacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.idEstacion) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewEstacion\", response.idEstacion);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nueva estación guardado exitosamente\" + response.idEstacion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el el id de la nueva estación o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"PUTEChi\",\r\n  \"latitud\": -15.0806,\r\n  \"longitud\": -75.0118\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/estaciones",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"estaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAllEstaciones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/estaciones",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"estaciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findEstacionById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/estaciones/{{idNewEstacion}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"estaciones",
+								"{{idNewEstacion}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateEstacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"UTEChi\",\r\n  \"telefono\": \"916444981\",\r\n  \"descripcion\": \"Estación ficha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/estaciones/{{idNewEstacion}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"estaciones",
+								"{{idNewEstacion}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEstacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/estaciones/{{idNewEstacion}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"estaciones",
+								"{{idNewEstacion}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parametro",
+			"item": [
+				{
+					"name": "addParametro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.id) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewParam\", response.id);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nuevo parametro guardado exitosamente\" + response.idEstacion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el id del nuevo parametro o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"TEMPERATURA\",\r\n    \"descripcion\": \"Mide la temperatura en grados Celsius\",\r\n    \"unidad\": \"°F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/parametros",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"parametros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addParametro Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.id) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewParam\", response.id);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nuevo parametro guardado exitosamente\" + response.idEstacion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el id del nuevo parametro o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"HUMEDAD\",\r\n    \"descripcion\": \"Mide el porcentaje de vapor de agua en el aire respecto al máximo posible\",\r\n    \"unidad\": \"%\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/parametros",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"parametros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAllParametros",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/parametros",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"parametros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addParametro Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"TEMPERATURA\",\r\n    \"descripcion\": \"Mide la temperatura en Farenheid\",\r\n    \"unidad\": \"°F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/parametros/{{idNewParam}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"parametros",
+								"{{idNewParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteParametro",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/parametros/{{idNewParam}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"parametros",
+								"{{idNewParam}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Nodo",
+			"item": [
+				{
+					"name": "addNodo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.idNodo) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewNodo\", response.idNodo);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nuevo nodo guardado exitosamente\" + response.idEstacion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el id del nuevo nodo o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idEstacion\": {{idNewEstacion}},\r\n    \"parametros\": [\"HUMEDAD\"],\r\n    \"estado\": \"ACTIVO\",\r\n    \"fechaInstalacion\": \"2026-12-01T10:00:00\",\r\n    \"descripcion\": \"Nodo instalado en el techo del edificio C\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gedNodo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos/{{idNewNodo}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos",
+								"{{idNewNodo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gedNodoEstacion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos/estacion/{{idNewEstacion}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos",
+								"estacion",
+								"{{idNewEstacion}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "gedNodoParam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos/parametro/{{idNewParam}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos",
+								"parametro",
+								"{{idNewParam}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateNodo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.idNodo) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewNodo\", response.idNodo);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nuevo nodo guardado exitosamente\" + response.idEstacion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el id del nuevo nodo o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"parametros\": [\"HUMEDAD\"],\r\n    // \"estado\": \"INACTIVO\",\r\n    // \"fechaInstalacion\": \"2025-12-01T10:00:00\",\r\n    // \"descripcion\": \"Nodo instalado en el techo del edificio B\",\r\n    \"token\": \"ayp3QcMI2MIesLb8OLHH9xKBSICfQZUd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos/{{idNewNodo}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos",
+								"{{idNewNodo}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteNodo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/nodos/1",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"nodos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mediciones",
+			"item": [
+				{
+					"name": "addMedicion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parsear la respuesta JSON\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"// Verificar que la respuesta sea exitosa y contenga el token\r",
+									"if (pm.response.code === 201 && response.idMedicion) {\r",
+									"    // Guardar el token como variable de colección (disponible para todos los requests)\r",
+									"    pm.collectionVariables.set(\"idNewMedicion\", response.idMedicion);\r",
+									"    \r",
+									"    // O guardar como variable de entorno (si prefieres usar environment)\r",
+									"    // pm.environment.set(\"authToken\", response.token);\r",
+									"    \r",
+									"    console.log(\"Id de nuevo medicion guardado exitosamente\" + response.idMedicion);\r",
+									"} else {\r",
+									"    console.log(\"Error al obtener el id del nuevo medicion o respuesta no exitosa\");\r",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idNodo\": {{idNewNodo}},\r\n    \"idParametro\": {{idNewParam}},\r\n    \"fecha\": \"2023-11-15T14:30:00\",\r\n    \"valor\": 65.5, \r\n    \"token\": \"ayp3QcMI2MIesLb8OLHH9xKBSICfQZUd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/mediciones",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"mediciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMedicionesLast",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/mediciones/nodo/{{idNewNodo}}/last",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"mediciones",
+								"nodo",
+								"{{idNewNodo}}",
+								"last"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMedicionesById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/mediciones/{{idNewMedicion}}",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"mediciones",
+								"{{idNewMedicion}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMedicionesFiltro",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authTokenCliente}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    // \"idNodo\": {{idNewNodo}},\r\n    \"idParametro\": 4\r\n    //\"fechaInicio\":,\r\n    //\"fechaFin\":\r\n    // \"idEstacion\" : 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/api/mediciones/filter",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"api",
+								"mediciones",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "authTokenCliente",
+			"value": ""
+		},
+		{
+			"key": "authTokenAdmin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "idNewEstacion",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idNewParam",
+			"value": ""
+		},
+		{
+			"key": "idNewNodo",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "idNewMedicion",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -20,4 +20,7 @@ public class NodoUpdateDTO {
     private String descripcion;
 
     private List<ParametroEnum> parametros;
+
+    @Size(min = 32, max = 32, message = "El token debe de tener una extensión de 32 caracteres")
+    private String token;
 }
