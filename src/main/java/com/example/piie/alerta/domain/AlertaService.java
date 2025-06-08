@@ -1,6 +1,7 @@
 package com.example.piie.alerta.domain;
 
 import com.example.piie.alerta.dto.AlertaDto;
+import com.example.piie.alerta.dto.AlertaResponseDto;
 import com.example.piie.alerta.infraestructure.AlertaRepository;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.nodo.domain.Nodo;
@@ -29,22 +30,22 @@ public class AlertaService {
 //                .map(this::toDto)
 //                .collect(Collectors.toList());
 //    }
-    public Page<AlertaDto> findAll(Pageable pageable) {
-        return alertaRepository.findAll(pageable).map(this::toDto);
+    public Page<AlertaResponseDto> findAll(Pageable pageable) {
+        return alertaRepository.findAll(pageable).map(this::toResponseDto);
     }
     /**
      * Obtiene una alerta por ID.
      */
-    public AlertaDto findById(Long id) {
+    public AlertaResponseDto findById(Long id) {
         Alerta entidad = alertaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Alerta con id " + id + " no encontrada"));
-        return toDto(entidad);
+        return toResponseDto(entidad);
     }
 
     /**
      * Crea una nueva alerta.
      */
-    public AlertaDto create(AlertaDto dto) {
+    public AlertaResponseDto create(AlertaDto dto) {
         Nodo nodo = nodoRepository.findById(dto.getIdNodo())
                 .orElseThrow(() -> new ResourceNotFoundException("Nodo con id " + dto.getIdNodo() + " no encontrado"));
 
@@ -57,13 +58,10 @@ public class AlertaService {
         entidad.setDescripcion(dto.getDescripcion());
 
         Alerta guardada = alertaRepository.save(entidad);
-        return toDto(guardada);
+        return toResponseDto(guardada);
     }
 
-    /**
-     * Actualiza una alerta existente.
-     */
-    public AlertaDto update(Long id, AlertaDto dto) {
+    public AlertaResponseDto update(Long id, AlertaDto dto) {
         Alerta existente = alertaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Alerta con id " + id + " no encontrada"));
 
@@ -78,7 +76,7 @@ public class AlertaService {
         existente.setDescripcion(dto.getDescripcion());
 
         Alerta actualizado = alertaRepository.save(existente);
-        return toDto(actualizado);
+        return toResponseDto(actualizado);
     }
 
     /**
@@ -92,8 +90,8 @@ public class AlertaService {
 
     /* ---------- Métodos auxiliares (Entidad ↔ DTO) ---------- */
 
-    private AlertaDto toDto(Alerta entidad) {
-        return new AlertaDto(
+    private AlertaResponseDto toResponseDto(Alerta entidad) {
+        return new AlertaResponseDto(
                 entidad.getIdAlerta(),
                 entidad.getNodo().getIdNodo(),
                 entidad.getValorMax(),
@@ -103,4 +101,6 @@ public class AlertaService {
                 entidad.getDescripcion()
         );
     }
+
+
 }
