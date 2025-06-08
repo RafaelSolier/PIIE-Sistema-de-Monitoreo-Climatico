@@ -3,7 +3,10 @@ package com.example.piie.persona.domain;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.dto.PersonaDto;
 import com.example.piie.persona.infraestructure.PersonaRepository;
+import com.example.piie.usuario.infraestructure.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +17,19 @@ import java.util.stream.Collectors;
 public class PersonaService {
 
     private final PersonaRepository personaRepository;
+    private final UsuarioRepository usuarioRepository;
 
     /**
      * Lista todas las personas.
      */
-    public List<PersonaDto> findAll() {
-        return personaRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+//    public List<PersonaDto> findAll() {
+//        return personaRepository.findAll()
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
+    public Page<PersonaDto> findAll(Pageable pageable) {
+        return personaRepository.findAll(pageable).map(this::toDto);
     }
 
     /**
@@ -37,7 +44,15 @@ public class PersonaService {
     /**
      * Crea una nueva persona.
      */
+//    public PersonaDto create(PersonaDto dto) {
+//        Persona entidad = toEntity(dto);
+//        Persona guardada = personaRepository.save(entidad);
+//        return toDto(guardada);
+//    }
     public PersonaDto create(PersonaDto dto) {
+        if (personaRepository.existsByDni(dto.getDni())) {
+            throw new IllegalArgumentException("El DNI ya está registrado");
+        }
         Persona entidad = toEntity(dto);
         Persona guardada = personaRepository.save(entidad);
         return toDto(guardada);
@@ -64,10 +79,20 @@ public class PersonaService {
      * Elimina una persona por ID.
      */
     public void delete(Long id) {
+        // Verificar si existe la persona
         Persona existente = personaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Persona con id " + id + " no encontrada"));
+
+        // Verificar si existe un usuario relacionado
+        if (usuarioRepository.existsById(id)) {
+            // Eliminar el usuario relacionado
+            usuarioRepository.deleteById(id);
+        }
+
+        // Eliminar la persona
         personaRepository.delete(existente);
     }
+
 
     /* ---------- Métodos auxiliares (Entidad ↔ DTO) ---------- */
 

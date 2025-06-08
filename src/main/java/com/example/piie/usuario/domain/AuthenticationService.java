@@ -1,17 +1,24 @@
 package com.example.piie.usuario.domain;
 
+import com.example.piie.exception.AuthenticationException;
+import com.example.piie.exception.BadCredentialsException;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.domain.Persona;
+import com.example.piie.persona.dto.PersonaDto;
 import com.example.piie.persona.infraestructure.PersonaRepository;
 import com.example.piie.usuario.domain.Rol;
 import com.example.piie.usuario.domain.Usuario;
 import com.example.piie.usuario.dto.JwtAuthenticationResponse;
 import com.example.piie.usuario.dto.SignUpRequest;
 import com.example.piie.usuario.dto.SigninRequest;
+import com.example.piie.usuario.dto.UsuarioDTO;
 import com.example.piie.usuario.infraestructure.UsuarioRepository;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.Hibernate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +43,11 @@ public class AuthenticationService {
      * @return JwtAuthenticationResponse que contiene el token recién generado
      */
     public JwtAuthenticationResponse signup(SignUpRequest request) {
+        if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new com.example.piie.exception.IllegalArgumentException("Ya existe un usuario con el correo: " + request.getEmail());
+        }
+
+
         // 1) Crear y persistir la entidad Persona
         Persona persona = new Persona();
         persona.setDni(request.getDni());
@@ -76,15 +88,16 @@ public class AuthenticationService {
      * @throws IllegalArgumentException si las credenciales son inválidas o el usuario no existe.
      */
     public JwtAuthenticationResponse signin(SigninRequest request) {
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->  new BadCredentialsException());
+
         // 1) Intentar autenticar con AuthenticationManager (Spring Security)
-        authenticationManager.authenticate(
+       try{ authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
-        // 2) Si pasa la autenticación, buscar el usuario en BD
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Usuario con correo " + request.getEmail() + " no encontrado")
-                );
+       }catch(org.springframework.security.authentication.BadCredentialsException e){
+            throw new BadCredentialsException();
+        }
 
         // 3) Generar token JWT
         String token = jwtService.generateToken(
@@ -97,4 +110,32 @@ public class AuthenticationService {
 
         return new JwtAuthenticationResponse(token);
     }
+//    public Usuario getCurrentUser() {
+//        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+//        return usuarioRepository.findByEmail(email)
+//                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+//    }
+// AuthenticationService.java
+public UsuarioDTO getCurrentUser() {
+    String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+    // Inicializar la relación con Persona
+    Hibernate.initialize(usuario.getPersona());
+
+    // Mapear Persona a PersonaDTO
+    Persona persona = usuario.getPersona();
+    PersonaDto personaDTO = new PersonaDto(
+            persona.getIdPersona(),
+            persona.getNombre(),
+            persona.getApellidos(),
+            persona.getDni(),
+            persona.getCelular(),
+            persona.getSexo()
+    );
+
+    // Retornar UsuarioDTO
+    return new UsuarioDTO(usuario.getEmail(), usuario.getRol(), personaDTO);
+}
 }

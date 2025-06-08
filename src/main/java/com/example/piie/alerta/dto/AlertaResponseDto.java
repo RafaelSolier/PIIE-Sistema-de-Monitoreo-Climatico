@@ -1,18 +1,18 @@
-package com.example.piie.medicion.dto;
+package com.example.piie.alerta.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MedicionFilterDTO {
+public class AlertaResponseDto {
+    private Long idAlerta;
     private Long idNodo;
-    private Long idParametro;
-    private Long idEstacion;
+    private Double valorMax;
+    private Double valorMin;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
+    private String descripcion;
 }

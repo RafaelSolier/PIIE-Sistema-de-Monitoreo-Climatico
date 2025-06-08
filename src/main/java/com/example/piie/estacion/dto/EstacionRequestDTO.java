@@ -12,9 +12,9 @@ public class EstacionRequestDTO {
     @Size(min = 3, max = 100, message = "El nombre no puede exceder los 100 caracteres")
     private String nombre;
 
-    @NotBlank(message = "La dirección no puede estar vacía")
-    private Double latitude;
-    @NotBlank(message = "La dirección no puede estar vacía")
-    private Double longitude;
+    @NotNull(message = "La dirección no puede estar vacía")
+    private Double latitud;
+    @NotNull(message = "La dirección no puede estar vacía")
+    private Double longitud;
 
 }

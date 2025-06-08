@@ -37,15 +37,22 @@ public class SecurityConfig {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(httpSecurityCorsCustomizer -> {});
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/users/**", "/auth/**").permitAll()
-                                .anyRequest()
-                                .authenticated())
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
+                        .requestMatchers("/auth/me").authenticated()
+                        .anyRequest().authenticated()
+                )
+
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

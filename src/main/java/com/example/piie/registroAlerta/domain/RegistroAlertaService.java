@@ -1,6 +1,5 @@
 package com.example.piie.registroAlerta.domain;
 
-
 import com.example.piie.alerta.domain.Alerta;
 import com.example.piie.alerta.infraestructure.AlertaRepository;
 import com.example.piie.exception.ResourceNotFoundException;
@@ -8,7 +7,7 @@ import com.example.piie.registroAlerta.dto.RegistroAlertaDto;
 import com.example.piie.registroAlerta.infraestructure.RegistroAlertaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +30,12 @@ public class RegistroAlertaService {
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
+//    public List<RegistroAlertaDto> findByAlertaId(RegistroAlertaId idAlerta) {
+//        return registroAlertaRepository.findByIdAlerta(idAlerta)
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     /**
      * Obtiene un registro de alerta por PK compuesta (idAlerta + fecha).

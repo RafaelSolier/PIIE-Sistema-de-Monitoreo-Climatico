@@ -8,6 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 public class EstacionDTO {
 
+    private Long idEstacion;
+
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 3, max = 100, message = "El nombre no puede exceder los 100 caracteres")
     private String nombre;

@@ -14,15 +14,4 @@ public interface MedicionRepository extends JpaRepository<Medicion, Long> {
     List<Medicion> findByNodoIdNodo(Long idNodo);
     List<Medicion> findByParametroIdParametro(Long idParametro);
 
-    // Metodo para búsqueda con filtros
-    @Query("SELECT m FROM Medicion m WHERE " +
-            "(:idNodo IS NULL OR m.nodo.idNodo = :idNodo) AND " +
-            "(:idParametro IS NULL OR m.parametro.idParametro = :idParametro) AND " +
-            "(:fechaInicio IS NULL OR m.fecha >= :fechaInicio) AND " +
-            "(:fechaFin IS NULL OR m.fecha <= :fechaFin)")
-    List<Medicion> findByFilters(
-            @Param("idNodo") Long idNodo,
-            @Param("idParametro") Long idParametro,
-            @Param("fechaInicio") LocalDateTime fechaInicio,
-            @Param("fechaFin") LocalDateTime fechaFin);
 }

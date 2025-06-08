@@ -1,20 +1,24 @@
 package com.example.piie.parametro.domain;
 
+import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.parametro.infrastructure.ParametroRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ParametroService {
-    @Autowired
-    private ParametroRepository parametroRepository;
 
-    public void createParametro(Parametro parametro) {
-        parametroRepository.save(parametro);
+    private final ParametroRepository parametroRepository;
+    private final ModelMapper modelMapper;
+
+    public Parametro createParametro(Parametro parametro) {
+        return parametroRepository.save(parametro);
     }
 
     public List<Parametro> findAll() {
@@ -45,7 +49,7 @@ public class ParametroService {
         if (parametroRepository.findById(id).isPresent()) {
             parametroRepository.deleteById(id);
         }else {
-            throw new RuntimeException(ResourceNotFoundException("No se encontró el parámetro" + id));
+            throw new ResourceNotFoundException("No se encontró el parámetro" + id);
         }
     }
 }

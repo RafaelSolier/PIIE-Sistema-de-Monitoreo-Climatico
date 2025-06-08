@@ -5,6 +5,9 @@ import com.example.piie.estacion.domain.Estacion;
 import com.example.piie.medicion.domain.Medicion;
 import com.example.piie.alerta.domain.Alerta;
 import com.example.piie.parametro.domain.Parametro;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -23,12 +26,13 @@ public class Nodo {
     @JoinColumn(name = "id_estacion")
     private Estacion estacion;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "nodo_parametro",
             joinColumns = @JoinColumn(name = "id_nodo"),
             inverseJoinColumns = @JoinColumn(name = "id_parametro")
     )
+    @JsonManagedReference
     private List<Parametro> parametros = new ArrayList<>();
 
     @Column(nullable = false)
@@ -38,6 +42,9 @@ public class Nodo {
     private LocalDateTime fechaRegistro;
     private LocalDateTime fechaInstalacion;
     private String descripcion;
+
+    @Column(nullable = false, unique = true)
+    private String token;
 
     @OneToMany(mappedBy = "nodo", cascade = CascadeType.ALL)
     private List<Medicion> mediciones = new ArrayList<>();

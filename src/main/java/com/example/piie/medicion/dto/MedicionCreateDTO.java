@@ -2,7 +2,9 @@ package com.example.piie.medicion.dto;
 
 import com.example.piie.parametro.domain.ParametroEnum;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -15,7 +17,7 @@ public class MedicionCreateDTO {
     private Long idNodo;
 
     @NotNull(message = "El ID de parámetro es obligatorio")
-    private ParametroEnum parametro;
+    private Long idParametro;
 
     @NotNull(message = "La fecha es obligatoria")
     private LocalDateTime fecha;
@@ -23,4 +25,8 @@ public class MedicionCreateDTO {
     @NotNull(message = "El valor es obligatorio")
     @DecimalMin(value = "0.0", message = "El valor no puede ser negativo")
     private Double valor;
+
+    @NotBlank(message = "El token es obligatorio")
+    @Size(min = 32, max = 32, message = "El token debe de tener una extensión de 32 caracteres")
+    private String token;
 }
