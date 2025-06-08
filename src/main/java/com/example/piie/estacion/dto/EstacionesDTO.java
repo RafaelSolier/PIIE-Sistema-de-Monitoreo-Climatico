@@ -1,5 +1,8 @@
 package com.example.piie.estacion.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +10,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class EstacionResponseDTO {
+public class EstacionesDTO {
+
     private Long idEstacion;
+
     private String nombre;
-    private String latitud;
-    private String longitud;
-    private String telefono;
-    private String descripcion;
+
+    private Double latitud;
+
+    private Double longitud;
+
 }

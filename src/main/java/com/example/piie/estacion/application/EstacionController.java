@@ -1,10 +1,7 @@
 package com.example.piie.estacion.application;
 
 import com.example.piie.estacion.domain.EstacionService;
-import com.example.piie.estacion.dto.EstacionDTO;
-import com.example.piie.estacion.dto.EstacionRequestDTO;
-import com.example.piie.estacion.dto.EstacionResponseDTO;
-import com.example.piie.estacion.dto.EstacionUpdateDTO;
+import com.example.piie.estacion.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +21,8 @@ public class EstacionController {
 
     @GetMapping()
     @PreAuthorize("hasRole('ADMIN') or hasRole('CLIENTE')")
-    public ResponseEntity<List<EstacionDTO>> findAll() {
-        List<EstacionDTO> estaciones = estacionService.findAll();
+    public ResponseEntity<List<EstacionesDTO>> findAll() {
+        List<EstacionesDTO> estaciones = estacionService.findAll();
         return ResponseEntity.ok(estaciones);
     }
 

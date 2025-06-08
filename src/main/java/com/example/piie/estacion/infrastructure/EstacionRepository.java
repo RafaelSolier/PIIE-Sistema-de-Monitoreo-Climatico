@@ -13,4 +13,6 @@ public interface EstacionRepository extends JpaRepository<Estacion, Long> {
     List<Estacion> findAllByNombre(String nombre);
 
     Estacion findByNombre(String nombre);
+
+    boolean existsByNombre(String nombre);
 }

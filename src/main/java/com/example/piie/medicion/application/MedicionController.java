@@ -67,7 +67,7 @@ public class MedicionController {
 
     // Registrar nueva medición (acceso solo para módulos externos)
     @PostMapping
-    @PreAuthorize("hasRole('MODULO')")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<MedicionDto> createMedicion(@Valid @RequestBody MedicionCreateDTO medicionCreateDTO) {
         MedicionDto nuevaMedicion = medicionService.createMedicion(medicionCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaMedicion);
