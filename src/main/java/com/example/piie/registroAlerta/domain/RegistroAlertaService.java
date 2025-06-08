@@ -30,6 +30,12 @@ public class RegistroAlertaService {
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
+//    public List<RegistroAlertaDto> findByAlertaId(RegistroAlertaId idAlerta) {
+//        return registroAlertaRepository.findByIdAlerta(idAlerta)
+//                .stream()
+//                .map(this::toDto)
+//                .collect(Collectors.toList());
+//    }
 
     /**
      * Obtiene un registro de alerta por PK compuesta (idAlerta + fecha).

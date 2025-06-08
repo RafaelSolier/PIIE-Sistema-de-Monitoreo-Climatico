@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AlertaDto {
-    private Long idAlerta;
+    //private Long idAlerta;
 
     @NotNull(message = "El idNodo es obligatorio")
     private Long idNodo;

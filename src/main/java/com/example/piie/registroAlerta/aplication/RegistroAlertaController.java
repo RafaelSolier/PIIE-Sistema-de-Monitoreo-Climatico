@@ -1,5 +1,6 @@
 package com.example.piie.registroAlerta.aplication;
 
+import com.example.piie.registroAlerta.domain.RegistroAlertaId;
 import com.example.piie.registroAlerta.domain.RegistroAlertaService;
 import com.example.piie.registroAlerta.dto.RegistroAlertaDto;
 import jakarta.validation.Valid;
@@ -26,6 +27,12 @@ public class RegistroAlertaController {
     public List<RegistroAlertaDto> getAll() {
         return registroAlertaService.findAll();
     }
+
+//    @GetMapping("/{idAlerta}")
+//    @PreAuthorize("hasRole('ADMIN')")
+//    public List<RegistroAlertaDto> getByAlertaId(@PathVariable RegistroAlertaId idAlerta) {
+//        return registroAlertaService.findByAlertaId(idAlerta);
+//    }
 
     @GetMapping("/{idAlerta}/{fecha}")
     @PreAuthorize("hasRole('ADMIN')")

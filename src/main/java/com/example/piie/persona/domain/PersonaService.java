@@ -3,6 +3,7 @@ package com.example.piie.persona.domain;
 import com.example.piie.exception.ResourceNotFoundException;
 import com.example.piie.persona.dto.PersonaDto;
 import com.example.piie.persona.infraestructure.PersonaRepository;
+import com.example.piie.usuario.infraestructure.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class PersonaService {
 
     private final PersonaRepository personaRepository;
+    private final UsuarioRepository usuarioRepository;
 
     /**
      * Lista todas las personas.
@@ -77,10 +79,20 @@ public class PersonaService {
      * Elimina una persona por ID.
      */
     public void delete(Long id) {
+        // Verificar si existe la persona
         Persona existente = personaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Persona con id " + id + " no encontrada"));
+
+        // Verificar si existe un usuario relacionado
+        if (usuarioRepository.existsById(id)) {
+            // Eliminar el usuario relacionado
+            usuarioRepository.deleteById(id);
+        }
+
+        // Eliminar la persona
         personaRepository.delete(existente);
     }
+
 
     /* ---------- Métodos auxiliares (Entidad ↔ DTO) ---------- */
 
