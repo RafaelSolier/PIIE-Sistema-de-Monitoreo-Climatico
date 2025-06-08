@@ -33,7 +33,7 @@ public class Nodo {
             inverseJoinColumns = @JoinColumn(name = "id_parametro")
     )
     @JsonManagedReference
-    private List<Parametro> parametros;
+    private List<Parametro> parametros = new ArrayList<>();
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,6 +42,9 @@ public class Nodo {
     private LocalDateTime fechaRegistro;
     private LocalDateTime fechaInstalacion;
     private String descripcion;
+
+    @Column(nullable = false, unique = true)
+    private String token;
 
     @OneToMany(mappedBy = "nodo", cascade = CascadeType.ALL)
     private List<Medicion> mediciones = new ArrayList<>();

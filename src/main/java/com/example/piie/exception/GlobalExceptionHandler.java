@@ -66,4 +66,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
+    @ExceptionHandler(DuplicateTokenException.class)
+    public ResponseEntity<String> handDuplicateTokenException(DuplicateTokenException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
 }

@@ -28,7 +28,7 @@ public class Parametro {
 
     @ManyToMany(mappedBy = "parametros")
     @JsonBackReference
-    private List<Nodo> nodos;
+    private List<Nodo> nodos = new ArrayList<>();
 
     // getters y setters
 }

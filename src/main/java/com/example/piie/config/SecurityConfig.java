@@ -42,7 +42,7 @@ public class SecurityConfig {
         http.cors(httpSecurityCorsCustomizer -> {});
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/users/**", "/auth/**").permitAll()
+                        authorize.requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class MedicionFilterDTO {
     private Long idNodo;
     private Long idParametro;
+    private Long idEstacion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
 }
