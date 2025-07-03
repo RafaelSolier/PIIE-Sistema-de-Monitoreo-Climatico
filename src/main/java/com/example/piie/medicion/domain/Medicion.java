@@ -24,6 +24,7 @@ public class Medicion {
     private Parametro parametro;
 
     private LocalDateTime fecha;
+
     private Double valor;
 
     // getters y setters

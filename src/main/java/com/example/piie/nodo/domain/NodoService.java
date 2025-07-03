@@ -57,6 +57,7 @@ public class NodoService {
         newNodo.setEstacion(estacion);
         newNodo.setParametros(parametros);
         newNodo.setEstado(nodoCreateDTO.getEstado());
+//        newNodo.setToken(nodoCreateDTO.getToken());
         newNodo.setFechaRegistro(LocalDateTime.now());
         newNodo.setDescripcion(nodoCreateDTO.getDescripcion());
 

@@ -15,8 +15,8 @@ public class WebMvcCorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")                    // Rutas a las que aplica CORS                   // Rutas a las que aplica CORS
-                        .allowedOrigins("http://localhost:5173")       // Orígenes permitidos
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedOrigins("*")       // Orígenes permitidos
+                        .allowedMethods("GET", "POST", "PUT", "DELETE","PATCH","OPTIONS")
                         .allowedHeaders("Content-Type", "Authorization")
                         .maxAge(3600);
             }
