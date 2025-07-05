@@ -43,7 +43,7 @@ public class Nodo {
     private LocalDateTime fechaInstalacion;
     private String descripcion;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = true, unique = true)
     private String token;
 
     @OneToMany(mappedBy = "nodo", cascade = CascadeType.ALL)

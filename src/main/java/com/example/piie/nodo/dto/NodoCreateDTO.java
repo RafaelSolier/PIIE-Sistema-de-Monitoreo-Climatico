@@ -22,7 +22,8 @@ public class NodoCreateDTO {
     // @EnumNamePattern(regexp = "ACTIVO|INACTIVO|MANTENIMIENTO",
     //         message = "Debe ser uno de: ACTIVO, INACTIVO o MANTENIMIENTO")
     private EstadoEnum estado;
-
+//    @NotNull(message = "El token es obligatorio")
+//    private String token;
     @FutureOrPresent(message = "La fecha de instalación debe ser presente o futura")
     private LocalDateTime fechaInstalacion;
 

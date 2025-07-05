@@ -128,9 +128,9 @@ public UsuarioDTO getCurrentUser() {
     Persona persona = usuario.getPersona();
     PersonaDto personaDTO = new PersonaDto(
             persona.getIdPersona(),
+            persona.getDni(),
             persona.getNombre(),
             persona.getApellidos(),
-            persona.getDni(),
             persona.getCelular(),
             persona.getSexo()
     );
