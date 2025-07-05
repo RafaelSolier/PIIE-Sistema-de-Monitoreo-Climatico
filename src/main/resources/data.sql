@@ -52,3 +52,9 @@ INSERT INTO usuario (
           false,
           true
       );
+
+-- Insertar parámetros de TEMPERATURA, HUMEDAD y PRESION
+INSERT INTO parametro (nombre, unidad, descripcion) VALUES
+                                                        ('TEMPERATURA', '°C', 'Medición de temperatura ambiental'),
+                                                        ('HUMEDAD', '%', 'Medición de humedad relativa del aire'),
+                                                        ('PRESION', 'Pa', 'Medición de presión atmosférica');

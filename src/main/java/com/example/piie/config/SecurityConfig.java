@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
+                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones/sercrete/endpoint").permitAll()
                         .requestMatchers("/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )
