@@ -39,28 +39,57 @@ public class MedicionService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public MedicionDto createMedicion(@Valid MedicionCreateDTO medicionCreateDTO) {
+    public Boolean createMedicion(@Valid MedicionCreateDTO medicionCreateDTO) {
         if (medicionCreateDTO.getToken() == null || medicionCreateDTO.getToken().isEmpty()) {
             throw new AuthenticationException();
         }
 
+        // Verifica que el nodo con ese ID exista
         Nodo nodo = nodoRepository.findById(medicionCreateDTO.getIdNodo())
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró un nodo con ID: "+medicionCreateDTO.getIdNodo()));
+                .orElseThrow(() -> new ResourceNotFoundException("No se encontró un nodo con ID: " + medicionCreateDTO.getIdNodo()));
 
+        // Verifica que el token corresponda a ese nodo
         if (!nodo.getToken().equals(medicionCreateDTO.getToken())) {
             throw new AuthenticationException();
         }
 
-        Parametro parametro = parametroRepository.findById(medicionCreateDTO.getIdParametro())
-                .orElseThrow(() -> new ResourceNotFoundException("No se encontró un parametro con ID: "+medicionCreateDTO.getIdParametro()));
+        if (medicionCreateDTO.getTemperatura() != null ||
+                medicionCreateDTO.getHumedad() != null ||
+                medicionCreateDTO.getPresion() != null) {
+            if (medicionCreateDTO.getTemperatura() != null) {
+                Parametro tempParam = parametroRepository.findById(1L).get();
+                Medicion medicionTemp = new Medicion();
+                medicionTemp.setNodo(nodo);
+                medicionTemp.setParametro(tempParam);
+                medicionTemp.setFecha(medicionCreateDTO.getFecha());
+                medicionTemp.setValor(medicionCreateDTO.getTemperatura());
+                medicionRepository.save(medicionTemp);
+            }
 
-        Medicion medicion = new Medicion();
-        medicion.setNodo(nodo);
-        medicion.setParametro(parametro);
-        medicion.setFecha(medicionCreateDTO.getFecha());
-        medicion.setValor(medicionCreateDTO.getValor());
+            if (medicionCreateDTO.getHumedad() != null) {
+                Parametro humParam = parametroRepository.findById(2L).get();
+                Medicion medicionHum = new Medicion();
+                medicionHum.setNodo(nodo);
+                medicionHum.setParametro(humParam);
+                medicionHum.setFecha(medicionCreateDTO.getFecha());
+                medicionHum.setValor(medicionCreateDTO.getHumedad());
+                medicionRepository.save(medicionHum);
+            }
 
-        return modelMapper.map(medicionRepository.save(medicion), MedicionDto.class);
+            if (medicionCreateDTO.getPresion() != null) {
+                Parametro presParam = parametroRepository.findById(3L).get();
+                Medicion medicionPres = new Medicion();
+                medicionPres.setNodo(nodo);
+                medicionPres.setParametro(presParam);
+                medicionPres.setFecha(medicionCreateDTO.getFecha());
+                medicionPres.setValor(medicionCreateDTO.getPresion());
+                medicionRepository.save(medicionPres);
+            }
+
+            return Boolean.TRUE;
+        }else {
+            return Boolean.FALSE;
+        }
     }
 
     public MedicionDto getMedicionById(Long id) {
