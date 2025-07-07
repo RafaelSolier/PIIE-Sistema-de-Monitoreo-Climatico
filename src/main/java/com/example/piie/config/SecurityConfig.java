@@ -55,11 +55,13 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
+//                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
+                        .requestMatchers("/users/**", "/auth/**", "/api/mediciones/sercrete/endpoint").permitAll()
                         .requestMatchers("/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )
 
+                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

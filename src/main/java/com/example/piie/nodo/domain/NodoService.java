@@ -58,10 +58,13 @@ public class NodoService {
         newNodo.setParametros(parametros);
         newNodo.setEstado(nodoCreateDTO.getEstado());
 //        newNodo.setToken(nodoCreateDTO.getToken());
+
         newNodo.setFechaRegistro(LocalDateTime.now());
         newNodo.setDescripcion(nodoCreateDTO.getDescripcion());
 
-
+        if (nodoCreateDTO.getFechaInstalacion() != null) {
+            newNodo.setFechaInstalacion(nodoCreateDTO.getFechaInstalacion());
+        }
         // Guardar en BD
         Nodo savedNodo = nodoRepository.save(newNodo);
         //System.out.println("Nodo created" + savedNodo);
