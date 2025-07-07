@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
@@ -49,17 +50,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/users/**", "/auth/**", "/api/mediciones").permitAll()
                         .requestMatchers("/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )
 
-                .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -106,9 +106,16 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         var cfg = new CorsConfiguration();
         //cfg.setAllowedOrigins(List.of("http://localhost:5173"));
-        cfg.setAllowedOrigins(List.of("*"));
+        cfg.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",         // Desarrollo local con puerto dinámico
+                "http://127.0.0.1:*",         // Otra forma de localhost
+                "http://*:8081",                 // IPs públicas en desarrollo (ej. EC2)
+                "https://*.ngrok.io"          // Subdominios dinámicos de Ngrok
+        ));
         cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","PATCH","OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
+        cfg.setExposedHeaders(List.of("Authorization"));
+        cfg.setAllowCredentials(true);
         var src = new UrlBasedCorsConfigurationSource();
         src.registerCorsConfiguration("/**", cfg);
         return src;
